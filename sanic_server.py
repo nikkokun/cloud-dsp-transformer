@@ -124,8 +124,8 @@ async def download_file(request):
     logger.info('downloading file: {}'.format(filename))
 
     download_from_cloundinary(audio_file_url)
-
-    return text('downloaded file')
+    except urllib.error.URLError:
+        return text('downloaded file')
 
 
 ### Private Functions ###
