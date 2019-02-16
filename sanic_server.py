@@ -11,14 +11,11 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-<<<<<<< HEAD
 import dspcore
 import json
-=======
 from sanic.response import json
 
 #import json
->>>>>>> sanic-server
 import os
 import wget
 
@@ -54,13 +51,14 @@ async def transform(request):
     # - http://localhost:8000/transform?filename=song.wav&type=stretch
     # - The value for shift must be in the range [-100,100]
 
+    #check if request.body contains necessary arguments
+
     print(request.body)
 
     data = ujson.loads(request.body)
-    #print(data['url'])
 
     if 'url' not in data:
-        return text('You need to specify a URL.')
+        return response.json({'message': "missing url"}, status=401)
 
     cloudinary_file_url = data['url']
 
@@ -73,6 +71,7 @@ async def transform(request):
 
     # Download the specified file from cloudinary
     download_from_cloundinary(cloudinary_file_url)
+
 
     saved_file = os.path.join('downloads_from_cloudinary','file.wav')
 
