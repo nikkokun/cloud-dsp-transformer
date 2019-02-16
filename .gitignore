@@ -1,3 +1,4 @@
 *.pyc
-*.wav
-downloads_from_cloudinary
+downloads_from_cloudinary/*
+output/*
+testdata/*
