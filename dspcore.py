@@ -15,7 +15,7 @@ def stretch(filename, factor):
    sf.write(output_path,y_2,sr)
    return output_path
 
-def pitchShift(self.filename, cents):
+def pitchShift(filename, cents):
    y,sr= loadFile(filename)
    y_2 = librosa.effects.pitch_shift(y, sr, cents)
    output_path=os.path.join('./output',os.path.split(filename)[1])
