@@ -1,4 +1,8 @@
 *.pyc
 downloads_from_cloudinary/*
 output/*
+<<<<<<< HEAD
 test_data/*
+=======
+testdata/*
+>>>>>>> transforms
