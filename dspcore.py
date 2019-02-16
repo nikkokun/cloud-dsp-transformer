@@ -1,40 +1,49 @@
 import librosa
 import soundfile as sf
 import os
+import numpy as np
 
-filename='testdata/Tüngtwist.wav'
-path=os.path.join('./output',os.path.split(filename)[1])
+def loadFile(filepath):
+   y, sr = librosa.load(filepath)
+   return y,sr
 
-y, sr = librosa.load(filename)
 
-def stretch(factor):
+def stretch(filename, factor):
+   y,sr= loadFile(filename)
    y_2 = librosa.effects.time_stretch(y, factor)
-   return y_2
+   output_path=os.path.join('./output',os.path.split(filename)[1])
+   sf.write(output_path,y_2,sr)
+   return output_path
 
-def pitchShift(cents):
+def pitchShift(self.filename, cents):
+   y,sr= loadFile(filename)
    y_2 = librosa.effects.pitch_shift(y, sr, cents)
-   return y_2
+   output_path=os.path.join('./output',os.path.split(filename)[1])
+   sf.write(output_path,y_2,sr)
+   return output_path
 
-def percussive():
-   y_2 = librosa.effects.percussive(y, margin=2.0)
-   return y_2
+def percussive(filename, x):
+   y,sr= loadFile(filename)
+   y_2 = librosa.effects.percussive(y, margin=x)
+   output_path=os.path.join('./output',os.path.split(filename)[1])
+   sf.write(output_path,y_2,sr)
+   return output_path
 
-def harmonic():
-   y_2 = librosa.effects.harmonic(y, margin=2.0)
-   return y_2
+def harmonic(filename, x):
+   y,sr= loadFile(filename)
+   y_2 = librosa.effects.harmonic(y, margin=x)
+   output_path=os.path.join('./output',os.path.split(filename)[1])
+   sf.write(output_path,y_2,sr)
+   return output_path
 
-def dj(size):
+def dj(filename, size):
+   y,sr= loadFile(filename)
    _, beat_frames = librosa.beat.beat_track(y=y, sr=sr,hop_length=512)
    beat_samples = librosa.frames_to_samples(beat_frames)
    intervals = librosa.util.frame(beat_samples, frame_length=2,hop_length=1).T
    y_2 = librosa.effects.remix(y, intervals[::size])
-   return y_2
+   output_path=os.path.join('./output',os.path.split(filename)[1])
+   sf.write(output_path,y_2,sr)
+   return output_path
 
-def write():
-   
-def main():
-   dj(4)
-   return
-
-if __name__=='__main__':
-   main()
+percussive('testdata/04_Sexy_and_I_Know_It.wav',10.0)
