@@ -94,6 +94,9 @@ async def transform(request):
 
 	upload_url = upload_file_to_cloudinary(transformed_file_path)
 
+	if len(upload_url) == 0:
+		return response.json({'message': "Failed to upload a media file"}, status=500)
+
 	return response.json({'url': upload_url})
 
 def upload_file_to_cloudinary(file_path):
@@ -108,7 +111,8 @@ def upload_file_to_cloudinary(file_path):
 
 		return cr['url']
 	except Exception as e:
-		print(e)
+		logger.error(e)
+		return ""
 
 	logger.info('uploaded to cloudinary: ' + ujson.dumps(cr))
 
