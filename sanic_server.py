@@ -151,6 +151,13 @@ def download_from_cloundinary(url):
 		os.makedirs(dir)
 
 	output_file_path = os.path.join(dir, filename)
+
+	# Delete if there is a previous download with the same name otherwise wget.download
+	# would save a new download with a different name, e.g. song (1).wav, and old file
+	# will get uploaded
+	if os.path.exists(output_file_path):
+		os.remove(output_file_path)
+
 	logger.info('downloading ' + output_file_path)
 	f = wget.download(url, out=output_file_path)
 	logger.info('wget return value: {}'.format(f))
