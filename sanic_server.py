@@ -44,33 +44,22 @@ async def upload(request):
 
 @app.post('/transform')
 async def transform(request):
-    # Applies a pitch shift to the specified file on the cloudinary
+    # Applies a transform to the specified file on the cloudinary
     # Usage:
     # - http://localhost:8000/transform?filename=song.wav&type=stretch
     # - The value for shift must be in the range [-100,100]
 
-    #print(json.loads(request.body.decode('utf8').replace("'",'"')))
-    #return request.body
-    
     print(request.body)
 
     data = ujson.loads(request.body)
+    #print(data['url'])
 
-    #data = json(request.json)
-    #return text(data['url'])
-    print(data)
-    print(data['url'])
-
-    #return text(str(request.json))
-    print(json({'url': request.body}))
-    if 'url' not in request:
+    if 'url' not in data:
         return text('You need to specify a URL.')
 
-    cloudinary_file_url = request.json['url']
+    cloudinary_file_url = data['url']
 
-    return text(cloudinary_file_url)
-
-    if 'transforms' not in args:
+    if 'transforms' not in data:
         return text('You need to specify at least transformation.')
 
     #transform_type = args['type'][0] if 'type' in args else 'type_not_specified'
