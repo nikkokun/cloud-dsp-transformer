@@ -72,25 +72,32 @@ async def transform(request):
     # Download the specified file from cloudinary
     download_from_cloundinary(cloudinary_file_url)
 
+    print(data);
 
-    saved_file = os.path.join('downloads_from_cloudinary','file.wav')
+    transforms = data['transforms']
 
-    if transform_type == 'stretch':
-        output_file = dspcore.stretch(saved_file,0)
-    elif transform_type == 'pitch_shift':
-        dspcore.pitchShift(saved_file,shift)
-    elif transform_type == 'percussive':
-        dspcore.percussive(saved_file,0)
-    elif transform_type == 'harmonic':
-        dspcore.harmonic(saved_file,0)
-    elif transform_type == 'dj':
-        dspcore.dj(saved_file,size)
-    else:
-        loggger.info('Error: unknown transform type {}'.format(transform_type))
+    for transform in transforms:
 
-    upload_url = upload_file_to_cloudinary
+        transform_type = transform['type']
 
-    return response.json({'url': upload_url})
+        saved_file = os.path.join('downloads_from_cloudinary','file.wav')
+
+        if transform == 'stretch':
+            output_file = dspcore.stretch(saved_file,0)
+        elif transform_type == 'pitch_shift':
+            dspcore.pitchShift(saved_file,shift)
+        elif transform_type == 'percussive':
+            dspcore.percussive(saved_file,0)
+        elif transform_type == 'harmonic':
+            dspcore.harmonic(saved_file,0)
+        elif transform_type == 'dj':
+            dspcore.dj(saved_file,size)
+        else:
+            loggger.info('Error: unknown transform type {}'.format(transform_type))
+
+    # upload_url = upload_file_to_cloudinary
+
+    # return response.json({'url': upload_url})
 
 def upload_file_to_cloudinary(file_path):
     # Returns the URL of the file uploaded to Cloudinary

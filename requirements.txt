@@ -1,3 +1,4 @@
 cloudinary
 sanic
 librosa
+wget
