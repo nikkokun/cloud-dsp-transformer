@@ -1,2 +1,4 @@
 *.pyc
-downloads_from_cloudinary
+downloads_from_cloudinary/*
+output/*
+test_data/*
