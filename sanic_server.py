@@ -11,9 +11,13 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-import json
+from sanic.response import json
+
+#import json
 import os
 import wget
+
+import ujson
 
 # Out audio effect library
 #import dspcore
@@ -38,34 +42,62 @@ async def upload(request):
 
     return text("uploaded to cloudinary: " + audio_file_url)
 
-@app.route('/pitch_shift')
-async def pitchShift(request):
+@app.post('/transform')
+async def transform(request):
     # Applies a pitch shift to the specified file on the cloudinary
     # Usage:
-    # - http://localhost:8000/pitch_shift?filename=song.wav&shift=50
+    # - http://localhost:8000/transform?filename=song.wav&type=stretch
     # - The value for shift must be in the range [-100,100]
 
-    filename = request.args['filename'][0]
-    shift = request.args['shift'][0]
+    #print(json.loads(request.body.decode('utf8').replace("'",'"')))
+    #return request.body
+    
+    print(request.body)
+
+    data = ujson.loads(request.body)
+
+    #data = json(request.json)
+    #return text(data['url'])
+    print(data)
+    print(data['url'])
+
+    #return text(str(request.json))
+    print(json({'url': request.body}))
+    if 'url' not in request:
+        return text('You need to specify a URL.')
+
+    cloudinary_file_url = request.json['url']
+
+    return text(cloudinary_file_url)
+
+    if 'transforms' not in args:
+        return text('You need to specify at least transformation.')
+
+    #transform_type = args['type'][0] if 'type' in args else 'type_not_specified'
+    shift = 0
+    size = 0
 
     # Download the specified file from cloudinary
-    download_from_cloundinary(filename)
+    download_from_cloundinary(cloudinary_file_url)
 
-    output_filename = 'pitch_shifted.wav'
+    saved_file = os.path.join('downloads_from_cloudinary','file.wav')
 
-    dspcore.pitchShift(filename,shift,output_filename)
+    if transform_type == 'stretch':
+        output_file = dspcore.stretch(saved_file,0)
+    elif transform_type == 'pitch_shift':
+        dspcore.pitchShift(saved_file,shift)
+    elif transform_type == 'percussive':
+        dspcore.percussive(saved_file,0)
+    elif transform_type == 'harmonic':
+        dspcore.harmonic(saved_file,0)
+    elif transform_type == 'dj':
+        dspcore.dj(saved_file,size)
+    else:
+        loggger.info('Error: unknown transform type {}'.format(transform_type))
 
-    # 
-    return text('factor: {}, filename: {}'.format(factor,filename))
+    upload_url = upload_file_to_cloudinary
 
-@app.route('/stretch')
-async def stretch(request):
-
-    factor = request.args['factor'][0]
-    filename = request.args['filename'][0]
-    output_filename = filename
-
-    return text('factor: {}, filename: {}'.format(factor,filename))
+    return response.json({'url': upload_url})
 
 def upload_file_to_cloudinary(file_path):
     # Returns the URL of the file uploaded to Cloudinary
@@ -144,9 +176,9 @@ async def test_pitch_shift(request):
     # Usage
     # - http://localhost:8000/test_pitch_shift
 
-    shift = 50
+    #shift = 50
 
-    dspcore.pitchShift('testdata/BlueSea_A024.wav',shift,'testdata/pitch_shifted.wav')
+    #dspcore.pitchShift('testdata/BlueSea_A024.wav',shift,'testdata/pitch_shifted.wav')
 
     return response.json({'shift': shift})
 
