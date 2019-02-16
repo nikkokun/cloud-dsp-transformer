@@ -2,3 +2,4 @@ cloudinary
 sanic
 librosa
 wget
+soundfile
