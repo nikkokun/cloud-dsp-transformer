@@ -1,3 +1,5 @@
+import os
+
 def stretch(src,factor):
 	print('Applying stretch (factor: {})'.format(factor))
 	return os.path.join('output','transformed.wav')

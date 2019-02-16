@@ -88,9 +88,9 @@ async def transform(request):
         elif transform_type == 'dj':
             transformed_file_path = dspcore.dj(saved_file,size)
         else:
-            loggger.info('Error: unknown transform type {}'.format(transform_type))
+            print('Error: unknown transform type {}'.format(transform_type))
 
-    upload_url = upload_file_to_cloudinary(transformed_file_path)
+    # upload_url = upload_file_to_cloudinary(transformed_file_path)
 
     # return response.json({'url': upload_url})
 
