@@ -74,21 +74,21 @@ async def transform(request):
 
     print(transforms)
 
-    for transform in transforms:
-        transform_type = transform['type']
+    # for transform in transforms:
+    #     transform_type = transform['type']
 
-        if transform_type == 'stretch':
-            transformed_file_path = dspcore.stretch(saved_file,0)
-        elif transform_type == 'pitch_shift':
-            transformed_file_path = dspcore.pitchShift(saved_file,shift)
-        elif transform_type == 'percussive':
-            transformed_file_path = dspcore.percussive(saved_file,0)
-        elif transform_type == 'harmonic':
-            transformed_file_path = dspcore.harmonic(saved_file,0)
-        elif transform_type == 'dj':
-            transformed_file_path = dspcore.dj(saved_file,size)
-        else:
-            print('Error: unknown transform type {}'.format(transform_type))
+    #     if transform_type == 'stretch':
+    #         transformed_file_path = dspcore.stretch(saved_file,0)
+    #     elif transform_type == 'pitch_shift':
+    #         transformed_file_path = dspcore.pitchShift(saved_file,shift)
+    #     elif transform_type == 'percussive':
+    #         transformed_file_path = dspcore.percussive(saved_file,0)
+    #     elif transform_type == 'harmonic':
+    #         transformed_file_path = dspcore.harmonic(saved_file,0)
+    #     elif transform_type == 'dj':
+    #         transformed_file_path = dspcore.dj(saved_file,size)
+    #     else:
+    #         print('Error: unknown transform type {}'.format(transform_type))
 
     # upload_url = upload_file_to_cloudinary(transformed_file_path)
 
