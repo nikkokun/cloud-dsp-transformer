@@ -11,6 +11,7 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
+import dspcore
 import json
 import os
 import wget
@@ -95,7 +96,7 @@ def download_from_cloundinary(url):
     # https://stackoverflow.com/questions/273192/how-can-i-safely-create-a-nested-directory-in-python 
     # for in-depth discussion on this
     dir = 'downloads_from_cloudinary'
-    if not path.exists(dir):
+    if not os.path.exists(dir):
         os.makedirs(dir)
 
     output_file_path = os.path.join(dir,'output_file.wav')
