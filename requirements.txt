@@ -3,3 +3,4 @@ sanic
 librosa
 wget
 soundfile
+sanic-cors

@@ -14,6 +14,7 @@ import cloudinary.api
 import dspcore
 import json
 from sanic.response import json
+from sanic_cors import CORS, cross_origin
 
 import os
 import os.path
@@ -30,6 +31,7 @@ import ujson
 app = Sanic()
 STATIC_FOLDER = os.path.join(os.path.dirname(__file__), 'static')
 url = ""
+CORS(app, automatic_options=True)
 
 
 ### REST APIs (Public) ###
@@ -72,7 +74,6 @@ async def transform(request):
 
 	transforms = data['transforms']
 
-	print(transforms)
 
 	for transform in transforms:
 		transform_type = transform['type']
@@ -90,7 +91,6 @@ async def transform(request):
 		else:
 			print('Error: unknown transform type {}'.format(transform_type))
 
-	print(transformed_file_path)
 
 	upload_url = upload_file_to_cloudinary(transformed_file_path)
 
